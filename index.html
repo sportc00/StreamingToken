@@ -192,6 +192,11 @@
       const index = Math.floor(Math.random() * balls.length);
       const winner = balls[index];
       winner.el.classList.add('winner');
+      balls.forEach((b, i) => {
+        if (i !== index) {
+          b.el.style.display = 'none';
+        }
+      });
       const msg = document.getElementById('winner-message');
       msg.textContent = `Ball ${winner.el.textContent} wins!`;
       msg.style.display = 'block';
