@@ -34,7 +34,18 @@
       50% { transform: scale(1.5); }
     }
     .winner { background: gold; color: #000; animation: winnerPulse 1s ease-in-out infinite; z-index: 10; }
-    #winner-message { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); padding: 1em 2em; border-radius: 10px; font-size: 2em; border: 2px solid gold; }
+    #winner-message {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      padding: 1em 2em;
+      border-radius: 10px;
+      font-size: 2em;
+      border: 2px solid gold;
+    }
     .table-title { font-size: 1.5em; margin: 2em auto 0.5em; text-transform: uppercase; }
     .holders-table { margin: 0 auto 2em; border-collapse: collapse; width: 80%; max-width: 600px; background: rgba(255,255,255,0.05); box-shadow: 0 0 15px rgba(142,68,173,0.7); border-radius: 10px; }
     .holders-table th, .holders-table td { padding: 0.8em; border: 1px solid rgba(142,68,173,0.7); color: #fff; text-align: center; }
@@ -125,9 +136,10 @@
   </div>
 
   <script>
-    const targetDate = new Date(Date.now() + 10 * 1000);
+    let targetDate = new Date(Date.now() + 10 * 1000);
     let winnerAnnounced = false;
-    const countdownInterval = setInterval(updateCountdown, 1000);
+    let countdownInterval = setInterval(updateCountdown, 1000);
+    let currentWinner = null;
     updateCountdown();
 
     function updateCountdown() {
@@ -190,16 +202,33 @@
 
     function announceWinner() {
       const index = Math.floor(Math.random() * balls.length);
-      const winner = balls[index];
-      winner.el.classList.add('winner');
+      currentWinner = balls[index];
+      currentWinner.el.classList.add('winner');
       balls.forEach((b, i) => {
         if (i !== index) {
           b.el.style.display = 'none';
         }
       });
       const msg = document.getElementById('winner-message');
-      msg.textContent = `Ball ${winner.el.textContent} wins!`;
+      msg.textContent = `Ball ${currentWinner.el.textContent} wins!`;
       msg.style.display = 'block';
+      setTimeout(resetGame, 5000);
+    }
+
+    function resetGame() {
+      const msg = document.getElementById('winner-message');
+      msg.style.display = 'none';
+      if (currentWinner) {
+        currentWinner.el.classList.remove('winner');
+        currentWinner = null;
+      }
+      balls.forEach(b => {
+        b.el.style.display = 'flex';
+      });
+      winnerAnnounced = false;
+      targetDate = new Date(Date.now() + 10 * 1000);
+      countdownInterval = setInterval(updateCountdown, 1000);
+      updateCountdown();
     }
   </script>
 </body>
