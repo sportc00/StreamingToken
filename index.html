@@ -70,9 +70,14 @@
       font-size: 1.2em;
       row-gap: 8px;
     }
+    .footer-center > div:first-child { white-space: nowrap; }
     .footer-center hr { width: 120px; border: 1px solid #fff; margin: 4px 0; }
     .social-links { display: flex; gap: 2em; color: #fff; font-size: 1.2em; }
     .social-links a { text-decoration: none; color: #fff; }
+    @media (max-width: 500px) {
+      .footer-center { font-size: 1em; }
+      .social-links { font-size: 1em; gap: 1.5em; }
+    }
   </style>
 </head>
 <body>
