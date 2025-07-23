@@ -70,6 +70,7 @@
       font-size: 1.2em;
       row-gap: 8px;
     }
+    .footer-right { color: #fff; }
     .footer-center > div:first-child { white-space: nowrap; }
     .footer-center hr { width: 120px; border: 1px solid #fff; margin: 4px 0; }
     .social-links { display: flex; gap: 2em; color: #fff; font-size: 1.2em; }
@@ -77,6 +78,7 @@
     @media (max-width: 500px) {
       .footer-center { font-size: 1em; }
       .social-links { font-size: 1em; gap: 1.5em; }
+      .footer-right { font-size: 1em; }
     }
   </style>
 </head>
@@ -133,6 +135,8 @@
     <div class="footer-center">
       <div>Connect with our community</div>
       <hr>
+    </div>
+    <div class="footer-right">
       <div class="social-links">
         <a href="https://x.com/StreamingToken" target="_blank">X</a>
         <a href="https://t.me/streamingtoken" target="_blank">Telegram</a>
@@ -141,7 +145,7 @@
   </div>
 
   <script>
-    let targetDate = new Date(Date.now() + 10 * 1000);
+    let targetDate = new Date(Date.UTC(2025, 6, 25, 14, 0, 0));
     let winnerAnnounced = false;
     let countdownInterval = setInterval(updateCountdown, 1000);
     let currentWinner = null;
