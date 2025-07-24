@@ -14,10 +14,11 @@
     @keyframes fadeInBounce { 0% { opacity: 0; transform: translateY(-10px); } 50% { opacity: 1; transform: translateY(5px); } 100% { transform: translateY(0); } }
     #countdown { font-size: 1.5em; display: flex; justify-content: center; gap: 0.5em; margin-bottom: 1em; }
     .time { background: rgba(255,255,255,0.1); padding: 0.6em; border-radius: 10px; box-shadow: 0 0 10px #8e44ad; }
-    .boulier-visual { margin: 1em auto 0; width: 500px; height: 500px; background: url('/mnt/data/d9f5e889-6407-4368-b7fc-2f4808b99ee5.png') no-repeat center center; background-size: contain; position: relative; overflow: hidden; border-radius: 50%; box-shadow: inset 0 0 40px rgba(255,255,255,0.4), 0 0 50px rgba(142,68,173,0.7); }
+    .boulier-visual { margin: 1em auto 0; width: 100%; max-width: 500px; aspect-ratio: 1; background: url('/mnt/data/d9f5e889-6407-4368-b7fc-2f4808b99ee5.png') no-repeat center center; background-size: contain; position: relative; overflow: hidden; border-radius: 50%; box-shadow: inset 0 0 40px rgba(255,255,255,0.4), 0 0 50px rgba(142,68,173,0.7); }
     .boulier-base {
       margin: 0 auto;
-      width: 500px;
+      width: 100%;
+      max-width: 500px;
       height: 80px;
       background: #2c0039;
       box-shadow: inset 0 0 40px rgba(255,255,255,0.4), 0 0 50px rgba(142,68,173,0.7);
@@ -61,7 +62,7 @@
     .footer-center {
       position: absolute;
       left: 50%;
-      bottom: 20px;
+      bottom: 60px;
       transform: translateX(-50%);
       display: flex;
       flex-direction: column;
@@ -69,9 +70,16 @@
       font-size: 1.2em;
       row-gap: 8px;
     }
+    .footer-right { color: #fff; }
+    .footer-center > div:first-child { white-space: nowrap; }
     .footer-center hr { width: 120px; border: 1px solid #fff; margin: 4px 0; }
     .social-links { display: flex; gap: 2em; color: #fff; font-size: 1.2em; }
     .social-links a { text-decoration: none; color: #fff; }
+    @media (max-width: 500px) {
+      .footer-center { font-size: 1em; }
+      .social-links { font-size: 1em; gap: 1.5em; }
+      .footer-right { font-size: 1em; }
+    }
   </style>
 </head>
 <body>
@@ -127,6 +135,8 @@
     <div class="footer-center">
       <div>Connect with our community</div>
       <hr>
+    </div>
+    <div class="footer-right">
       <div class="social-links">
         <a href="https://x.com/StreamingToken" target="_blank">X</a>
         <a href="https://t.me/streamingtoken" target="_blank">Telegram</a>
@@ -135,7 +145,7 @@
   </div>
 
   <script>
-    let targetDate = new Date(Date.now() + 10 * 1000);
+    let targetDate = new Date(Date.UTC(2025, 6, 25, 14, 0, 0));
     let winnerAnnounced = false;
     let countdownInterval = setInterval(updateCountdown, 1000);
     let currentWinner = null;
@@ -163,11 +173,18 @@
     }
 
     const boulier = document.getElementById('boulier');
-    const centerX = 250, centerY = 250, radius = 250, ballRadius = 15, speed = 4;
+
+const centerX = boulier.clientWidth / 2;
+const centerY = boulier.clientHeight / 2;
+const radius = centerX;
+let ballRadius = boulier.clientWidth * 0.03;
+const speed = 4;
     const balls = [];
     for (let i = 1; i <= 15; i++) {
       const ball = document.createElement('div');
       ball.className = 'ball';
+      ball.style.width = (ballRadius * 2) + "px";
+      ball.style.height = (ballRadius * 2) + "px";
       ball.textContent = i;
       ball.style.left = (centerX - ballRadius) + 'px';
       ball.style.top = (centerY - ballRadius) + 'px';
