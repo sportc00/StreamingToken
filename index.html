@@ -151,7 +151,19 @@
   </div>
 
   <script>
-    let targetDate = new Date(Date.UTC(2025, 7, 4, 0, 0, 0));
+    function getNextSunday8pm() {
+      const now = new Date();
+      const result = new Date(now);
+      const day = result.getDay();
+      const diff = (7 - day) % 7;
+      result.setDate(result.getDate() + diff);
+      result.setHours(20, 0, 0, 0);
+      if (diff === 0 && now.getHours() >= 20) {
+        result.setDate(result.getDate() + 7);
+      }
+      return result;
+    }
+    let targetDate = getNextSunday8pm();
     let winnerAnnounced = false;
     let countdownInterval = setInterval(updateCountdown, 1000);
     let currentWinner = null;
@@ -248,7 +260,7 @@ const speed = 4;
         b.el.style.display = 'flex';
       });
       winnerAnnounced = false;
-      targetDate = new Date(Date.now() + 10 * 1000);
+      targetDate = getNextSunday8pm();
       countdownInterval = setInterval(updateCountdown, 1000);
       updateCountdown();
     }
